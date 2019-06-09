@@ -1,8 +1,9 @@
 package com.example.news;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class News {
+public class News implements Serializable {
     public final String author;
     public final String title;
     public final String description;
@@ -28,12 +29,5 @@ public class News {
         this.content = content;
         this.publishedAt = publishedAt;
     }
-
-
-
-
-
-
-
 }
 

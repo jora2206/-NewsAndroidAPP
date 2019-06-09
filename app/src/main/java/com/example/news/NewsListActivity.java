@@ -3,7 +3,8 @@ package com.example.news;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -18,7 +19,11 @@ public class NewsListActivity extends AppCompatActivity {
 
     private ListView newsListView;
 
-    private ArrayAdapter<News> newsArrayAdapter;
+    private NewsAdapter newsArrayAdapter;
+
+    public static interface NewsEvents {
+        void onClick(int position);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +69,21 @@ public class NewsListActivity extends AppCompatActivity {
         newsService.getNews(this.requestQueue, newsReady, newsError);
     }
 
+    private AdapterView.OnItemClickListener newsItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.i(NewsListActivity.this.logTag, "CLICKED!!!!!!!!!");
+
+            News news = (News) parent.getItemAtPosition(position);
+        }
+    };
+
     private void displayNewsArrayList(ArrayList<News> newsArrayList) {
         /** @todo build custom adapter and display through it */
+        this.newsArrayAdapter = new NewsAdapter(this, newsArrayList);
+        this.newsListView.setAdapter(this.newsArrayAdapter);
+
+        this.newsListView.setOnItemClickListener(this.newsItemClickListener);
     }
 
     private final String logTag = "NewsListActivity";
