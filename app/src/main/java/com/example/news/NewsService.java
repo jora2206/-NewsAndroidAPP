@@ -2,8 +2,11 @@ package com.example.news;
 
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -54,11 +57,34 @@ public class NewsService {
             final NewsService.NewsError newsError
     ) {
         final Response.Listener<JSONObject> responseListener = new Response.Listener<JSONObject>() {
-            public News parseNewsFromJSON(JSONObject jsonObject) throws JSONException {
-                String title = jsonObject.get("title").toString();
-                /** @todo make further parse */
+            final Date pareseISOToDate(String str) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                Date date = new Date();
 
-                News news = new News(title, "", "", "", "", "", new Date());
+                try {
+                    date = formatter.parse(str.replaceAll("Z$", "+0000"));
+//                    System.out.println(date);
+//
+//                    System.out.println("time zone : " + TimeZone.getDefault().getID());
+//                    System.out.println(formatter.format(date));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date;
+            }
+
+            public News parseNewsFromJSON(JSONObject jsonObject) throws JSONException {
+                String author = jsonObject.get("author").toString();
+                String title = jsonObject.get("title").toString();
+                String description = jsonObject.get("description").toString();
+                String url = jsonObject.get("url").toString();
+                String urlToImage = jsonObject.get("urlToImage").toString();
+                String content = jsonObject.get("content").toString();
+                Date publishedAt = this.pareseISOToDate(jsonObject.get("publishedAt").toString());
+
+                News news = new News(author, title, description, url, urlToImage, content, publishedAt);
 
                 return news;
             }
