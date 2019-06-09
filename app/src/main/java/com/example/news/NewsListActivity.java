@@ -48,6 +48,8 @@ public class NewsListActivity extends AppCompatActivity {
         final NewsService.NewsReady newsReady = new NewsService.NewsReady() {
             @Override
             public void onNewsReady(ArrayList<News> newsArrayList) {
+                Log.i(NewsListActivity.this.logTag, "getNews() success");
+
                 displayNewsArrayList(newsArrayList);
             }
         };
