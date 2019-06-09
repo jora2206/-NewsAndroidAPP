@@ -1,3 +1,7 @@
+package com.example.news;
+
+import java.util.Date;
+
 public class News {
     public final String author;
     public final String title;
@@ -14,7 +18,7 @@ public class News {
             String url,
             String urlToImage,
             String content,
-            String publishedAt
+            Date publishedAt
     ) {
         this.author = author;
         this.title = title;
