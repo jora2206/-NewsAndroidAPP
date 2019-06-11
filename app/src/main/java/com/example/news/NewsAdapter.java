@@ -23,6 +23,8 @@ public class NewsAdapter extends BaseAdapter {
     private LayoutInflater lInflater;
     private ArrayList<News> newsArrayList;
 
+    private News news;
+
     public NewsAdapter(Context context, ArrayList<News> newsArrayList) {
         this.ctx = context;
         this.newsArrayList = newsArrayList;
@@ -60,6 +62,8 @@ public class NewsAdapter extends BaseAdapter {
         News news = this.getItem(position);
 
         // Set view items
+
+        this.news = news;
 
         ImageView imageView = ((ImageView) view.findViewById(R.id.imageView));
         Picasso.with(this.ctx).load(news.urlToImage).into(imageView);

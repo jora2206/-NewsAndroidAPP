@@ -1,5 +1,6 @@
 package com.example.news;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +56,14 @@ public class NewsListActivity extends AppCompatActivity {
             public void onNewsReady(ArrayList<News> newsArrayList) {
                 Log.i(NewsListActivity.this.logTag, "getNews() success");
 
+//                final int newsCount = newsArrayList.size();
+//                for (int a = 0; a < newsCount; a++) {
+//                    /** Multiply the count of news */
+//                    for (int b = 0; b < 10; b++) {
+//                        newsArrayList.add(newsArrayList.get(a));
+//                    }
+//                }
+
                 displayNewsArrayList(newsArrayList);
             }
         };
@@ -72,14 +81,15 @@ public class NewsListActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener newsItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.i(NewsListActivity.this.logTag, "CLICKED!!!!!!!!!");
-
+            Intent newsItemActivityIndent = new Intent(getBaseContext(), NewsItemAcitity.class);
             News news = (News) parent.getItemAtPosition(position);
+
+            newsItemActivityIndent.putExtra("news", news);
+            startActivity(newsItemActivityIndent);
         }
     };
 
     private void displayNewsArrayList(ArrayList<News> newsArrayList) {
-        /** @todo build custom adapter and display through it */
         this.newsArrayAdapter = new NewsAdapter(this, newsArrayList);
         this.newsListView.setAdapter(this.newsArrayAdapter);
 
